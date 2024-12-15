@@ -33,3 +33,37 @@ int main()
     }
     cout << ans;
 }
+
+
+// method 2:
+/*
+class Solution {
+public:
+    int peakElement(vector<int> &arr) {
+        int n = arr.size();
+        int start = 0, end = n - 1; 
+        
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            // Check if mid is a peak element
+            if ((mid == 0 || arr[mid] > arr[mid - 1]) &&
+                (mid == n - 1 || arr[mid] > arr[mid + 1])) {
+                return mid; // Found the peak element
+            }
+
+            // If the left neighbor is greater, move to the left
+            else if (mid > 0 && arr[mid - 1] > arr[mid]) {
+                end = mid - 1;
+            }
+
+            // Otherwise, move to the right
+            else {
+                start = mid + 1;
+            }
+        }
+
+        return -1; // Should never reach here if input guarantees a peak element
+    }
+};
+*/
