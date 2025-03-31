@@ -1,47 +1,43 @@
 class Solution {
   public:
-  
-    bool isPossible(vector<int> &arr, int k, int maxPages) {
-        int studentsRequired = 1; // Start with one student
-        int currentSum = 0;
-
-        for (int pages : arr) {
-            if (pages > maxPages) return false; // A single book exceeds maxPages
-
-            if (currentSum + pages > maxPages) {
-                // Assign books to the next student
-                studentsRequired++;
-                currentSum = pages;
-
-                if (studentsRequired > k) return false; // Too many students needed
-            } else {
-                currentSum += pages;
-            }
-        }
-
-        return true;
-    }
-
     int findPages(vector<int> &arr, int k) {
         // code here
         int n = arr.size();
-        if (k > n) return -1; // Not enough books for each student to get one
-
-        int low = *max_element(arr.begin(), arr.end()); // Minimum possible maxPages
-        int high = accumulate(arr.begin(), arr.end(), 0); // Maximum possible maxPages
-        int result = -1;
-
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-
-            if (isPossible(arr, k, mid)) {
-                result = mid; // Update result with the current mid
-                high = mid - 1; // Try for a smaller maximum
-            } else {
-                low = mid + 1; // Increase the maximum
+        if(n < k) return -1;
+        
+        int start = 0, end = 0, mid, ans;
+        
+        for(int i = 0; i < n; i++)
+        {
+            start = max(start, arr[i]);
+            end += arr[i];
+        }
+        
+        while(start <= end)
+        {
+            mid = start + (end - start) / 2;
+            int pages = 0, count = 1;
+            
+            for(int i = 0; i < n; i++)
+            {
+                pages += arr[i];
+                if(pages > mid)
+                {
+                    count++;
+                    pages = arr[i];
+                }
+            }
+            
+            if(count <= k)
+            {
+                ans = mid;
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid + 1;
             }
         }
-
-        return result;
+        return ans;
     }
 };
