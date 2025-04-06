@@ -7,7 +7,7 @@ public:
 // frequency update
         for(int i = 0; i < s.size(); i++)
         {
-            if(s[i] >= 'a')
+            if(islower(s[i])
             {
                 lower[s[i] - 'a']++;
             }
