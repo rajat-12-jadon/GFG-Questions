@@ -1,0 +1,67 @@
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        vector<int> leftForce(dominoes.length(), 0);
+        vector<int> rightForce(dominoes.length(), 0);
+        string result = "";
+
+        int force = 0;
+
+        for(int i =  0; i < dominoes.length(); i++)
+        {
+            if(dominoes[i] == 'R')
+            {
+                force = dominoes.length();
+                rightForce[i] = force;
+            }
+
+            else if(dominoes[i] == 'L')
+            {
+                force = 0;
+                rightForce[i] = force;
+            }
+            else
+            {
+                force = max(force - 1, 0);
+                rightForce[i] = force;
+            }
+        }
+            force = 0;
+
+        for(int i = dominoes.length()- 1; i >= 0; i--)
+        {
+            if(dominoes[i] == 'L')
+            {
+                force = dominoes.length();
+                leftForce[i] = force;
+            }
+            else if(dominoes[i] == 'R')
+            {
+                force = 0;
+                leftForce[i] = force;
+            }
+            else
+            {
+                force = max(force - 1, 0);
+                leftForce[i] = force;
+            }
+        }
+
+        for(int i = 0; i < dominoes.length(); i++)
+        {
+            if(leftForce[i] > rightForce[i])
+            {
+                result += 'L';
+            }
+            else if(leftForce[i] < rightForce[i])
+            {
+                result += 'R';
+            }
+            else
+            {
+                result += '.';
+            }
+        }
+        return result;
+    }
+};
