@@ -1,67 +1,27 @@
 class Solution {
 public:
     long long minSum(vector<int>& nums1, vector<int>& nums2) {
-        int sum1, sum2 = 0;
-        int zero1, zero2 = 0;
-
+        long long sum1 = 0, sum2 = 0, z1 = 0, z2 = 0;
         for(int i = 0; i < nums1.size(); i++)
         {
+            sum1 += nums1[i];
             if(nums1[i] == 0)
             {
-                zero1++;
-            }
-            else
-            {
-                sum1 += nums1[i];
+                z1++;
             }
         }
 
         for(int i = 0; i < nums2.size(); i++)
         {
+            sum2 += nums2[i];
             if(nums2[i] == 0)
             {
-                zero2++;
-            }
-            else
-            {
-                sum2 += nums2[i];
+                z2++;
             }
         }
 
-        if(zero1 == 0 && zero2 == 0)
-        {
-           return (sum1==sum2) ? sum1 : -1;
-        }
+        if((z1 == 0 && z2 + sum2 > sum1) || (z2 == 0 && z1 + sum1 > sum2)) return -1;
 
-        int minSum1, minSum2 = 0;
-
-        minSum1 = sum1 + zero1*1;
-        minSum2 = sum2 + zero2*1;
-
-        if(minSum1 == minSum2)
-        {
-            return minSum1;
-        }
-
-        int diff = abs(minSum1 - minSum2);
-
-        if(minSum1 < minSum2)
-        {
-            if(zero1 == 0)
-            {
-                return -1;
-            }
-            int maxIncrease = 9 * zero1;
-            
-            return (diff <= maxIncrease) ? minSum2 : -1;
-        }
-        else    
-        {
-            if(zero2 == 0) return -1;
-
-            int maxIncrease = 9 * zero2;
-
-            return (diff <= maxIncrease) ? minSum1 : -1;
-        }
+        return max(sum1 + z1, sum2 + z2);
     }
 };
